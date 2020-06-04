@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyBlogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tbl_comment">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="comment_content" Type="varchar" MaxLength="1000" />
+    <Property Name="create_time" Type="datetime" />
+    <Property Name="author" Type="int" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="pic_url" Type="varchar" MaxLength="100" />
+    <Property Name="post_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_post">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="varchar" MaxLength="250" />
+    <Property Name="blog_content" Type="varchar(max)" />
+    <Property Name="tags" Type="int" Nullable="false" />
+    <Property Name="create_time" Type="datetime" />
+    <Property Name="update_time" Type="datetime" />
+    <Property Name="author_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_tag">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tbl_user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="picture" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_tbl_comment_tbl_post">
+    <End Role="tbl_post" Type="Self.tbl_post" Multiplicity="1" />
+    <End Role="tbl_comment" Type="Self.tbl_comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_post">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tbl_comment">
+        <PropertyRef Name="post_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_comment_tbl_user">
+    <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="1" />
+    <End Role="tbl_comment" Type="Self.tbl_comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_user">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tbl_comment">
+        <PropertyRef Name="author" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_post_tbl_tag">
+    <End Role="tbl_tag" Type="Self.tbl_tag" Multiplicity="1" />
+    <End Role="tbl_post" Type="Self.tbl_post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_tag">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tbl_post">
+        <PropertyRef Name="tags" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_post_tbl_user">
+    <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="1" />
+    <End Role="tbl_post" Type="Self.tbl_post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_user">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tbl_post">
+        <PropertyRef Name="author_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MyBlogModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_comment" EntityType="Self.tbl_comment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_post" EntityType="Self.tbl_post" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_tag" EntityType="Self.tbl_tag" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_user" EntityType="Self.tbl_user" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tbl_comment_tbl_post" Association="Self.FK_tbl_comment_tbl_post">
+      <End Role="tbl_post" EntitySet="tbl_post" />
+      <End Role="tbl_comment" EntitySet="tbl_comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_comment_tbl_user" Association="Self.FK_tbl_comment_tbl_user">
+      <End Role="tbl_user" EntitySet="tbl_user" />
+      <End Role="tbl_comment" EntitySet="tbl_comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_post_tbl_tag" Association="Self.FK_tbl_post_tbl_tag">
+      <End Role="tbl_tag" EntitySet="tbl_tag" />
+      <End Role="tbl_post" EntitySet="tbl_post" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_post_tbl_user" Association="Self.FK_tbl_post_tbl_user">
+      <End Role="tbl_user" EntitySet="tbl_user" />
+      <End Role="tbl_post" EntitySet="tbl_post" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

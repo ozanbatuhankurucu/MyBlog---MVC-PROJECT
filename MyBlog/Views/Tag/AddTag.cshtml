@@ -1,0 +1,13 @@
+﻿@model MyBlog.Models.Entity.tbl_tag
+@{
+    ViewBag.Title = "AddTag";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<form class="form-group" method="post">
+    <label>Tag Name</label>
+    @Html.TextBoxFor(m => m.name, new { @class = "form-control" })
+   
+    <button class="btn btn-info" style="margin-top:5px;">Ekle</button>
+</form>
+

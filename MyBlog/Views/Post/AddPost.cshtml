@@ -1,0 +1,19 @@
+﻿@model MyBlog.Models.Entity.tbl_post
+@{
+    ViewBag.Title = "AddPost";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+    <form class="form-group" method="post">
+        <label>Title</label>
+        @Html.TextBoxFor(m => m.title, new { @class = "form-control" })
+        <label>Content</label>
+        @Html.TextAreaFor(m => m.blog_content, new { @class = "form-control" })
+        <label>Tags</label>
+        @Html.DropDownListFor(m => m.tbl_tag.id, (List<SelectListItem>)ViewBag.dropdownItemsTag, new { @class = "form-control" })
+        <label>Users</label>
+        @Html.DropDownListFor(m => m.tbl_user.id, (List<SelectListItem>)ViewBag.dropdownItemsUser, new { @class = "form-control" })
+        <button class="btn btn-info" style="margin-top:5px;">Ekle</button>
+    </form>
+
+

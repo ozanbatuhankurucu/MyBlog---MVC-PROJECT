@@ -1,0 +1,32 @@
+﻿@using MyBlog.Models.Entity
+@model List<tbl_tag>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+
+<table class="table table-bordered" style="margin:5px 0px 0px 0px;">
+    <tr>
+        <th>
+            Tag ID
+        </th>
+        <th>Name</th>
+        <th>Delete</th>
+        <th>Update</th>
+
+    </tr>
+    @foreach (var tag in Model)
+    {
+        <tr>
+            <td>@tag.id</td>
+            <td>@tag.name</td>
+            
+            @*Burada actionResult ile alert dialogta cıkarılabilir postu silerken.*@
+            <td><a href="/Tag/DeleteTag/@tag.id" class="btn btn-danger">Delete</a></td>
+            <td><a href="/Tag/BringTagForUpdate/@tag.id" class="btn btn-primary">Update</a></td>
+        </tr>
+    }
+
+</table>
+<a href="/Tag/AddTag" class="btn btn-info" style="margin-top:10px; float:right;">Add New Tag</a>

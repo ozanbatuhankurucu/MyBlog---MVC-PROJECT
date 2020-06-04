@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyBlogModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_comment">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="comment_content" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="create_time" Type="DateTime" Precision="3" />
+    <Property Name="author" Type="Int32" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="pic_url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="post_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tbl_post" Relationship="Self.FK_tbl_comment_tbl_post" FromRole="tbl_comment" ToRole="tbl_post" />
+    <NavigationProperty Name="tbl_user" Relationship="Self.FK_tbl_comment_tbl_user" FromRole="tbl_comment" ToRole="tbl_user" />
+  </EntityType>
+  <EntityType Name="tbl_post">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="blog_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="tags" Type="Int32" Nullable="false" />
+    <Property Name="create_time" Type="DateTime" Precision="3" />
+    <Property Name="update_time" Type="DateTime" Precision="3" />
+    <Property Name="author_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tbl_comment" Relationship="Self.FK_tbl_comment_tbl_post" FromRole="tbl_post" ToRole="tbl_comment" />
+    <NavigationProperty Name="tbl_tag" Relationship="Self.FK_tbl_post_tbl_tag" FromRole="tbl_post" ToRole="tbl_tag" />
+    <NavigationProperty Name="tbl_user" Relationship="Self.FK_tbl_post_tbl_user" FromRole="tbl_post" ToRole="tbl_user" />
+  </EntityType>
+  <EntityType Name="tbl_tag">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tbl_post" Relationship="Self.FK_tbl_post_tbl_tag" FromRole="tbl_tag" ToRole="tbl_post" />
+  </EntityType>
+  <EntityType Name="tbl_user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="picture" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tbl_comment" Relationship="Self.FK_tbl_comment_tbl_user" FromRole="tbl_user" ToRole="tbl_comment" />
+    <NavigationProperty Name="tbl_post" Relationship="Self.FK_tbl_post_tbl_user" FromRole="tbl_user" ToRole="tbl_post" />
+  </EntityType>
+  <Association Name="FK_tbl_comment_tbl_post">
+    <End Role="tbl_post" Type="Self.tbl_post" Multiplicity="1" />
+    <End Role="tbl_comment" Type="Self.tbl_comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_post">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tbl_comment">
+        <PropertyRef Name="post_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_comment_tbl_user">
+    <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="1" />
+    <End Role="tbl_comment" Type="Self.tbl_comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_user">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tbl_comment">
+        <PropertyRef Name="author" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_post_tbl_tag">
+    <End Role="tbl_tag" Type="Self.tbl_tag" Multiplicity="1" />
+    <End Role="tbl_post" Type="Self.tbl_post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_tag">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tbl_post">
+        <PropertyRef Name="tags" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_post_tbl_user">
+    <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="1" />
+    <End Role="tbl_post" Type="Self.tbl_post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_user">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tbl_post">
+        <PropertyRef Name="author_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DbMyBlogEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="tbl_comment" EntityType="Self.tbl_comment" />
+    <EntitySet Name="tbl_post" EntityType="Self.tbl_post" />
+    <EntitySet Name="tbl_tag" EntityType="Self.tbl_tag" />
+    <EntitySet Name="tbl_user" EntityType="Self.tbl_user" />
+    <AssociationSet Name="FK_tbl_comment_tbl_post" Association="Self.FK_tbl_comment_tbl_post">
+      <End Role="tbl_post" EntitySet="tbl_post" />
+      <End Role="tbl_comment" EntitySet="tbl_comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_comment_tbl_user" Association="Self.FK_tbl_comment_tbl_user">
+      <End Role="tbl_user" EntitySet="tbl_user" />
+      <End Role="tbl_comment" EntitySet="tbl_comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_post_tbl_tag" Association="Self.FK_tbl_post_tbl_tag">
+      <End Role="tbl_tag" EntitySet="tbl_tag" />
+      <End Role="tbl_post" EntitySet="tbl_post" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_post_tbl_user" Association="Self.FK_tbl_post_tbl_user">
+      <End Role="tbl_user" EntitySet="tbl_user" />
+      <End Role="tbl_post" EntitySet="tbl_post" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

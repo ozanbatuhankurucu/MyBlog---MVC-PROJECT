@@ -1,0 +1,25 @@
+﻿@model MyBlog.Models.Entity.tbl_post
+@{
+    ViewBag.Title = "BringPostForUpdate";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+@using (Html.BeginForm("UpdatePost", "Post", FormMethod.Post))
+{
+    @Html.HiddenFor(m=>m.create_time)
+    @Html.HiddenFor(m => m.id)
+    <label>Title</label>
+    @Html.TextBoxFor(m => m.title, new { @class = "form-control" })
+    <label>Content</label>
+    @Html.TextAreaFor(m => m.blog_content, new { @class = "form-control" })
+    <label>Tags</label>
+    @Html.DropDownListFor(m => m.tbl_tag.id, (List<SelectListItem>)ViewBag.dropdownItemsTag, new { @class = "form-control" })
+    <label>Author</label>
+    @Html.DropDownListFor(m => m.tbl_user.id, (List<SelectListItem>)ViewBag.dropdownItemsUser, new { @class = "form-control" })
+   
+
+
+    <input type="submit" value="Update" style="margin-top:10px; float:right;" />
+
+}
+

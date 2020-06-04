@@ -1,0 +1,41 @@
+﻿@using MyBlog.Models.Entity
+@model List<tbl_post>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<table class="table table-bordered" style="margin:5px 0px 0px 0px;">
+    <tr>
+        <th>
+            Post ID
+        </th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Tags</th>
+        <th>Create Time</th>
+        <th>Update Time</th>
+        <th>Author Name</th>
+        <th>Delete</th>
+        <th>Update</th>
+
+    </tr>
+    @foreach(var post in Model)
+    {
+        <tr>
+            <td>@post.id</td>
+            <td>@post.title</td>
+            <td>@post.blog_content</td>
+            <td>@post.tbl_tag.name</td>
+            <td>@post.create_time</td>
+            <td>@post.update_time</td>
+            <td>@post.tbl_user.username</td>
+            @*Burada actionResult ile alert dialogta cıkarılabilir postu silerken.*@
+            <td><a href="/Post/DeletePost/@post.id" class="btn btn-danger">Delete</a></td>
+            <td><a href="/Post/BringPostForUpdate/@post.id" class="btn btn-primary">Update</a></td>
+        </tr>
+    }
+    
+</table>
+<a href="/Post/AddPost" class="btn btn-info" style="margin-top:10px; float:right;">Add New Post</a>
+

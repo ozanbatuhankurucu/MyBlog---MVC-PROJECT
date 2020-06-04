@@ -1,0 +1,17 @@
+﻿@model MyBlog.Models.Entity.tbl_tag
+@{
+    ViewBag.Title = "BringTagForUpdate";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+@using (Html.BeginForm("UpdateTag", "Tag", FormMethod.Post))
+{
+   
+    @Html.HiddenFor(m => m.id)
+    <label>Tag Name</label>
+    @Html.TextBoxFor(m => m.name, new { @class = "form-control" })
+    <input type="submit" value="Update" style="margin-top:10px; float:right;" />
+
+}
+
+
