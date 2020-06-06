@@ -5,6 +5,15 @@
     Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
+
+@using (Html.BeginForm("Index", "Post", FormMethod.Get))
+{
+    <div style="float:right; margin:10px;">
+        @Html.TextBox("searched")
+        
+        <input type="submit" value="Ara" />
+    </div>
+}
 <table class="table table-bordered" style="margin:5px 0px 0px 0px;">
     <tr>
         <th>

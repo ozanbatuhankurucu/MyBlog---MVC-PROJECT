@@ -34,10 +34,15 @@ namespace MyBlog.Controllers
         }
 
         // GET: Post
-        public ActionResult Index()
+        public ActionResult Index(string searched)
         {
-            var values = db.tbl_post.ToList();
-            return View(values);
+            
+            var posts = from post in db.tbl_post.ToList() select post;
+            if (!String.IsNullOrEmpty(searched))
+            {
+                posts = posts.Where(post => post.blog_content.Contains(searched) || post.title.Contains(searched));
+            }
+            return View(posts.ToList());
         }
         public ActionResult DeletePost(int id)
         {
